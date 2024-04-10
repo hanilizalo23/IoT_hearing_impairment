@@ -16,7 +16,11 @@ String Read_rootca;
 String Read_cert;
 String Read_privatekey;
 
-
+// Variables pines
+int analogPin_1 = 2;   // KY-037 analog interface microphone 1
+int analogPin_2 = 4;   // KY-037 analog interface microphone 2
+int analogVal_1;       // Analog readings for microphone 1
+int analogVal_2;       // Analog readings for microphone 2
 
 
 //Algo aqui
@@ -118,6 +122,10 @@ void reconnect() {
 
 
 void setup() {
+
+  pinMode(analogPin_1, INPUT);
+  pinMode(analogPin_2, INPUT);
+  
   Serial.begin(115200);
   Serial.setDebugOutput(true);
   
@@ -231,26 +239,41 @@ void loop() {
     client.loop();
 
 
-
-
-
-    // si han pasado mas de 5 segundos, hcaer json 
-    long now = millis();
-    if (now - lastMsg > 5000) {
-        lastMsg = now;
-        //=============================================================================================
-//        String macIdStr = mac_Id;
-//        String Temprature = String(t);
-//        String Humidity = String(h);                                                                // convirtiendo a str los valores para el json
-        snprintf (msg, BUFFER_LEN, "{\"mac_Id\" : \"hola\", \"Temperatura\" : 50, \"Humedad\" : 10}");
-        Serial.print("Publicando mensaje: ");
-        Serial.print(count);
-        Serial.println(msg);
-        // publicacion en el topic sensor, msg es el json
-        client.publish("sensor", msg);
-        count = count + 1;
-        //================================================================================================
+    // Read analog interface from microphones
+    analogVal_1 = analogRead(analogPin_1);
+    analogVal_2 = analogRead(analogPin_2);
+  
+    // Print analog value to serial of microphone 1
+    Serial.print("Microphone 1: ");
+    Serial.println(analogVal_1);
+    if (analogVal_1 >= 65){
+      Serial.println("Device is ready - Washing Machine");
+//      String elAnalog1 = analogVal_1;
+      snprintf (msg, BUFFER_LEN, "{\"Analog1\" : %s, \"print\" : Washing Machine}", analogVal_1);
+      Serial.print("Publicando mensaje: ");
+      Serial.print(count);
+      Serial.println(msg);
+      // publicacion en el topic sensor, msg es el json
+      client.publish("sensor", msg);
+      count = count + 1;
     }
+      
+  
+    // Print analog value to serial of microphone 2
+    Serial.print("Microphone 2: ");
+    Serial.println(analogVal_2);
+    if (analogVal_2 >= 135){
+      Serial.println("Device is ready - Microwave Oven");
+//      String elAnalog2 = analogVal_2;
+      snprintf (msg, BUFFER_LEN, "{\"Analog2\" : %s, \"print\" : Microwave Oven}", analogVal_2);
+      Serial.print("Publicando mensaje: ");
+      Serial.print(count);
+      Serial.println(msg);
+      // publicacion en el topic sensor, msg es el json
+      client.publish("sensor", msg);
+      count = count + 1;
+    }
+  
     // parpadeo en el led que viene soldado en la placa
     digitalWrite(2, HIGH);   
     delay(1000);                      
