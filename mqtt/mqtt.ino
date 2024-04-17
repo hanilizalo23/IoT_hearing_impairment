@@ -17,8 +17,8 @@ String Read_cert;
 String Read_privatekey;
 
 // Variables pines
-int analogPin_1 = 2;   // KY-037 analog interface microphone 1
-int analogPin_2 = 4;   // KY-037 analog interface microphone 2
+int analogPin_1 = 34;   // KY-037 analog interface microphone 1
+int analogPin_2 = 35;   // KY-037 analog interface microphone 2
 int analogVal_1;       // Analog readings for microphone 1
 int analogVal_2;       // Analog readings for microphone 2
 int noigo = 15;
@@ -266,22 +266,22 @@ void loop() {
 
 
 
-//AQUI MERO LO DE 5 SEGUNDOS
-long now = millis();
-  if (now - lastMsg > 5000) {
-    lastMsg = now;
-    //=============================================================================================
-//    String macIdStr = mac_Id;
-//    String Temprature = String(t);
-//    String Humidity = String(h);
-    snprintf (msg, BUFFER_LEN, "{\"mac_Id\" : 7, \"Temperatura\" : 4, \"Humedad\" : 5}");
-    Serial.print("Publicando mensaje: ");
-    Serial.print(count);
-    Serial.println(msg);
-    client.publish("sensor", msg);
-    count = count + 1;
-    //================================================================================================
-  }
+////AQUI MERO LO DE 5 SEGUNDOS
+//long now = millis();
+//  if (now - lastMsg > 5000) {
+//    lastMsg = now;
+//    //=============================================================================================
+////    String macIdStr = mac_Id;
+////    String Temprature = String(t);
+////    String Humidity = String(h);
+//    snprintf (msg, BUFFER_LEN, "{\"mac_Id\" : 7, \"Temperatura\" : 4, \"Humedad\" : 5}");
+//    Serial.print("Publicando mensaje: ");
+//    Serial.print(count);
+//    Serial.println(msg);
+//    client.publish("sensor", msg);
+//    count = count + 1;
+//    //================================================================================================
+//  }
 
 
 
@@ -289,7 +289,7 @@ long now = millis();
     if (analogVal_1 >= 65){
       Serial.println("Device is ready - Washing Machine");
 //      String elAnalog1 = analogVal_1;
-      snprintf (msg, BUFFER_LEN, "{\"Analog1\" : 1, \"print\" : Washing Machine}");
+      snprintf (msg, BUFFER_LEN, "{\"Analog1\" : 1, \"print\" : \"Washing Machine\"}");
       Serial.print("Publicando mensaje: ");
       Serial.print(count);
       Serial.println(msg);
@@ -306,7 +306,7 @@ long now = millis();
     if (analogVal_2 >= 135){
       Serial.println("Device is ready - Microwave Oven");
 //      String elAnalog2 = analogVal_2;
-      snprintf (msg, BUFFER_LEN, "{\"Analog2\" : 2, \"print\" : Microwave Oven}");
+      snprintf (msg, BUFFER_LEN, "{\"Analog2\" : 2, \"print\" : \"Microwave Oven\"}");
       Serial.print("Publicando mensaje: ");
       Serial.print(count);
       Serial.println(msg);
