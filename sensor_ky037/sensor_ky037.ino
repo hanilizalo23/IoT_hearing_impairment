@@ -17,12 +17,12 @@ void loop() {
   //Print analog value to serial of microphone 1
   Serial.print("Microphone 1: ");
   Serial.println(analogVal_1);
-  if (analogVal_1 >= 95)
+  if (analogVal_1 >= 105)
   Serial.println("Device is ready - Washing Machine");
 
   //Print analog value to serial of microphone 2
   Serial.print("Microphone 2: ");
   Serial.println(analogVal_2);
-  if (analogVal_2 >= 110)
+  if (analogVal_2 >= 120)
   Serial.println("Device is ready - Microwave Oven");
 }
