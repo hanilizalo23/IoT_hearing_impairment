@@ -286,7 +286,7 @@ void loop() {
 
 
     
-    if (analogVal_1 >= 65){
+    if (analogVal_1 >= 95){
       Serial.println("Device is ready - Washing Machine");
 //      String elAnalog1 = analogVal_1;
       snprintf (msg, BUFFER_LEN, "{\"Analog1\" : 1, \"print\" : \"Washing Machine\"}");
@@ -303,7 +303,7 @@ void loop() {
     // Print analog value to serial of microphone 2
     Serial.print("Microphone 2: ");
     Serial.println(analogVal_2);
-    if (analogVal_2 >= 135){
+    if (analogVal_2 >= 110){
       Serial.println("Device is ready - Microwave Oven");
 //      String elAnalog2 = analogVal_2;
       snprintf (msg, BUFFER_LEN, "{\"Analog2\" : 2, \"print\" : \"Microwave Oven\"}");
