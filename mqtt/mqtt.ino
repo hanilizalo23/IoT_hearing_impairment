@@ -21,10 +21,10 @@ int analogPin_1 = 34;   // KY-037 analog interface microphone 1
 int analogPin_2 = 35;   // KY-037 analog interface microphone 2
 int analogVal_1;       // Analog readings for microphone 1
 int analogVal_2;       // Analog readings for microphone 2
-int noigo = 15;
 
 
-//Algo aqui
+
+
 //********************************
 #define BUFFER_LEN  256
 long lastMsg = 0;
@@ -123,19 +123,10 @@ void reconnect() {
 
 
 void setup() {
-
-  
   Serial.begin(115200);
   Serial.setDebugOutput(true);
   
-  
-  
-  
   setup_wifi();   //conectarse a internet
-
-
-  
-  Serial.println("AQUI SE CONFIGURO BIEN-------------------");
   delay(1000);
 
   // ------------------------------LECTURA DE ARCHIVOS---------------------------------
@@ -221,8 +212,6 @@ void setup() {
     client.setServer(mqtt_server, mqtt_port);
     client.setCallback(callback);
 
-
-    // NO LO EXPLICA EL COMPA
     //******************************************
     WiFi.macAddress(mac);
     snprintf(mac_Id, sizeof(mac_Id), "%02x:%02x:%02x:%02x:%02x:%02x",
@@ -251,9 +240,9 @@ void loop() {
 
   // Read analog interface from microphones
     analogVal_1 = analogRead(analogPin_1);
-    Serial.println(analogVal_1);
+//    Serial.println(analogVal_1);
     analogVal_2 = analogRead(analogPin_2);
-    Serial.println(analogVal_2);
+//    Serial.println(analogVal_2);
 
     
     
@@ -261,34 +250,13 @@ void loop() {
     // Print analog value to serial of microphone 1
     Serial.print("Microphone 1: ");
     Serial.println(analogVal_1);
-    Serial.println(noigo);
-
-
-
-
-////AQUI MERO LO DE 5 SEGUNDOS
-//long now = millis();
-//  if (now - lastMsg > 5000) {
-//    lastMsg = now;
-//    //=============================================================================================
-////    String macIdStr = mac_Id;
-////    String Temprature = String(t);
-////    String Humidity = String(h);
-//    snprintf (msg, BUFFER_LEN, "{\"mac_Id\" : 7, \"Temperatura\" : 4, \"Humedad\" : 5}");
-//    Serial.print("Publicando mensaje: ");
-//    Serial.print(count);
-//    Serial.println(msg);
-//    client.publish("sensor", msg);
-//    count = count + 1;
-//    //================================================================================================
-//  }
+//    Serial.println(noigo);
 
 
 
     
-    if (analogVal_1 >= 95){
+    if (analogVal_1 >= 105){
       Serial.println("Device is ready - Washing Machine");
-//      String elAnalog1 = analogVal_1;
       snprintf (msg, BUFFER_LEN, "{\"Analog1\" : 1, \"print\" : \"Washing Machine\"}");
       Serial.print("Publicando mensaje: ");
       Serial.print(count);
@@ -296,6 +264,7 @@ void loop() {
       // publicacion en el topic sensor, msg es el json
       client.publish("sensor", msg);
       count = count + 1;
+      delay(5000);
     }
 
   
@@ -303,7 +272,7 @@ void loop() {
     // Print analog value to serial of microphone 2
     Serial.print("Microphone 2: ");
     Serial.println(analogVal_2);
-    if (analogVal_2 >= 110){
+    if (analogVal_2 >= 120){
       Serial.println("Device is ready - Microwave Oven");
 //      String elAnalog2 = analogVal_2;
       snprintf (msg, BUFFER_LEN, "{\"Analog2\" : 2, \"print\" : \"Microwave Oven\"}");
@@ -313,6 +282,7 @@ void loop() {
       // publicacion en el topic sensor, msg es el json
       client.publish("sensor", msg);
       count = count + 1;
+      delay(5000);
     }
   
     delay(2000);                         
